@@ -89,12 +89,17 @@ public class Ocean
     	for (int n = 0; n < plancton.size(); n++) {
     		//plancton[n] = Math.min(plancton[n] * incPlancton, maxPlancton);
     		
-    		double temp = 0.0;
-    		
     		Plancton atual = plancton.get(n);
-    		temp += (atual.getInitialPlancton() * 50.0) / 100;
+    		double temp = atual.getInitialPlancton();
+    		//temp += (atual.getInitialPlancton() * 50.0) / 100;
+
+    		double influencia_propria = temp/2;
+    		
+    		temp += influencia_propria;
     		
     		Cell vizinhos[] = cells[n].neighbours(1);
+    		
+    		System.out.println (vizinhos.length);
     		
     		for (int indice = 0; indice < vizinhos.length; indice++) 
     		{
@@ -103,49 +108,10 @@ public class Ocean
     			temp += aux;
     		}
     		
-//    		Plancton esquerda = null;
-//    		try { 
-//    			if ((n-1)%width == 0) {
-//    				esquerda = plancton.get(n-1);
-//    				temp += (esquerda.getInitialPlancton() * (50.0/4)) / 100;
-//    			}
-//    		} catch (IndexOutOfBoundsException e) {}
-//    		
-//    		Plancton direita = null;
-//    		try { 
-//    			if ((n+1)%width != 1) {
-//    				direita = plancton.get(n+1);
-//    				temp += (direita.getInitialPlancton() * (50.0/4)) / 100;
-//    			}
-//    		} catch (IndexOutOfBoundsException e) {}
-//    		
-//    		Plancton cima = null;
-//    		try { 
-//    			cima = plancton.get(n-width);
-//    			temp += (cima.getInitialPlancton() * (50.0/4)) / 100;
-//    		} catch (IndexOutOfBoundsException e) {}
-//    		
-//    		Plancton baixo = null;
-//    		try { 
-//    			baixo = plancton.get(n+width);
-//    			temp += (baixo.getInitialPlancton() * (50.0/4)) / 100;
-//    		} catch (IndexOutOfBoundsException e) {}
-    		
-//    		Plancton direita = plancton.get(n+1);
-//    		Plancton cima = plancton.get(n-width);
-//    		Plancton baixo = plancton.get(n+width);
-//    		
-    		
-    		
-    		
-    		System.out.println (temp);
-    		
-//    		if (temp < 10)
-//    			temp = 10.0;
+    		//System.out.println (temp);
     		
     		temp = Math.min(temp, atual.getMaxPlancton());
-    		//temp2 = Math.min(temp2, temp);
-    		//System.out.println (temp2);
+
     		atual.setInitialPlancton(temp);
     	}
     }
