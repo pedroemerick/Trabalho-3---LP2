@@ -2,6 +2,9 @@ package fishsim;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.util.HashMap;
 
 /**
@@ -31,6 +34,10 @@ public class SimulatorView extends JFrame
     private HashMap<Class,Color> colors;
     // A statistics object computing and storing simulation information
     private OceanStats stats;
+    
+    private boolean pausar;
+    private int velocidade;
+    private boolean reiniciar;
 
     /**
      * Create a view of the given width and height.
@@ -47,6 +54,14 @@ public class SimulatorView extends JFrame
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
         
+//        JPanel painel1 = new JPanel ();
+//        painel1.add(stepLabel, BorderLayout.NORTH);
+//        painel1.add(oceanView, BorderLayout.CENTER);
+//        painel1.add(population, BorderLayout.SOUTH);
+        
+        Painel2 painel = new Painel2 ();
+        painel.setSize(10, 10);
+        
         setLocation(100, 50);
         
         oceanView = new OceanView(height, width);
@@ -55,8 +70,19 @@ public class SimulatorView extends JFrame
         contents.add(stepLabel, BorderLayout.NORTH);
         contents.add(oceanView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
+        
+        contents.add(painel, BorderLayout.EAST);
+//        painel.setVisible(true);
+        
+        //this.setContentPane(painel); 
+        
+        //contents.add(painel1, BorderLayout.CENTER);
+        
         pack();
         setVisible(true);
+        
+        // VERIFICAR SE ER AQUI MSM
+        velocidade = 400;
     }
     
     /**
@@ -91,6 +117,15 @@ public class SimulatorView extends JFrame
     {
         if(!isVisible())
             setVisible(true);
+        
+        if (reiniciar) {
+        	step = 0;
+        }
+        
+        // Verifica se pausar esta ativo
+        while (pausar) {
+        	try { Thread.sleep (50); } catch (InterruptedException ex) {}
+        }
 
         stepLabel.setText(STEP_PREFIX + step);
 
@@ -123,6 +158,11 @@ public class SimulatorView extends JFrame
 
         population.setText(POPULATION_PREFIX + stats.getPopulationDetails(ocean));
         oceanView.repaint();
+        
+        // MUdando a velocidade
+        try { Thread.sleep (velocidade); } catch (InterruptedException ex) {}
+        
+        //return step;
     }
 
     /**
@@ -220,5 +260,85 @@ public class SimulatorView extends JFrame
                 }
             }
         }
+    }
+    
+    public class Painel2 extends JPanel {
+
+    	/**
+    	 * Create the panel.
+    	 */
+    	public Painel2() {
+    		GridBagLayout gridBagLayout = new GridBagLayout();
+    		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+    		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+    		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+    		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+    		setLayout(gridBagLayout);
+    		
+    		// BOTAO INICIAR
+    		JButton btnIniciar = new JButton("Iniciar");
+    		GridBagConstraints gbc_btnIniciar = new GridBagConstraints();
+    		gbc_btnIniciar.fill = GridBagConstraints.HORIZONTAL;
+    		gbc_btnIniciar.insets = new Insets(0, 0, 5, 0);
+    		gbc_btnIniciar.gridx = 6;
+    		gbc_btnIniciar.gridy = 2;
+    		add(btnIniciar, gbc_btnIniciar);
+    		
+    		// BOTAO PAUSAR
+    		JButton btnPausar = new JButton("Pausar");
+    		btnPausar.addActionListener(new ActionListener() {
+    			public void actionPerformed(ActionEvent e) {
+    				
+    				if (!pausar) {
+	    				pausar = true;
+	    				btnPausar.setText("Resumir");
+    				} else {
+    					pausar = false;
+	    				btnPausar.setText("Pausar");
+    				}
+    			}
+    		});
+    		GridBagConstraints gbc_btnPausar = new GridBagConstraints();
+    		gbc_btnPausar.fill = GridBagConstraints.HORIZONTAL;
+    		gbc_btnPausar.insets = new Insets(0, 0, 5, 0);
+    		gbc_btnPausar.anchor = GridBagConstraints.NORTH;
+    		gbc_btnPausar.gridx = 6;
+    		gbc_btnPausar.gridy = 3;
+    		add(btnPausar, gbc_btnPausar);
+    		
+    		// BOTAO REINICIAR
+    		JButton btnReiniciar = new JButton("Reiniciar");
+    		btnPausar.addActionListener(new ActionListener() {
+    			public void actionPerformed(ActionEvent e) {
+    				
+    			}
+    		});
+    		GridBagConstraints gbc_btnReiniciar = new GridBagConstraints();
+    		gbc_btnReiniciar.fill = GridBagConstraints.HORIZONTAL;
+    		gbc_btnReiniciar.insets = new Insets(0, 0, 5, 0);
+    		gbc_btnReiniciar.gridx = 6;
+    		gbc_btnReiniciar.gridy = 4;
+    		add(btnReiniciar, gbc_btnReiniciar);
+    		
+    		// CONTROLE DE VELOCIDADE
+    		JSlider slider = new JSlider(50, 800, 400);
+    		slider.addChangeListener(new ChangeListener() {
+    			public void stateChanged(ChangeEvent e) {
+    				velocidade = slider.getValue();
+    		    }
+    		});
+    		GridBagConstraints gbc_slider = new GridBagConstraints();
+    		gbc_slider.insets = new Insets(0, 0, 5, 0);
+    		gbc_slider.gridx = 6;
+    		gbc_slider.gridy = 6;
+    		add(slider, gbc_slider);
+    		
+    		JLabel lblControleDeVelocidade = new JLabel("Controle de Velocidade");
+    		GridBagConstraints gbc_lblControleDeVelocidade = new GridBagConstraints();
+    		gbc_lblControleDeVelocidade.gridx = 6;
+    		gbc_lblControleDeVelocidade.gridy = 7;
+    		add(lblControleDeVelocidade, gbc_lblControleDeVelocidade);
+
+    	}
     }
 }

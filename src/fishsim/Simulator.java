@@ -52,7 +52,13 @@ public class Simulator
         {
             ocean.act(i);
             simView.showStatus(i, ocean);
-            try { Thread.sleep (500); } catch (InterruptedException ex) {}
+            
+            
+//            if (reiniciar == true) {
+//            	
+//            }
+            
+            //try { Thread.sleep (500); } catch (InterruptedException ex) {}
         }
     }
 }
