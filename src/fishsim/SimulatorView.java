@@ -38,6 +38,7 @@ public class SimulatorView extends JFrame
     private boolean pausar;
     private int velocidade;
     private boolean reiniciar;
+	private boolean iniciar;
 
     /**
      * Create a view of the given width and height.
@@ -54,11 +55,6 @@ public class SimulatorView extends JFrame
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
         
-//        JPanel painel1 = new JPanel ();
-//        painel1.add(stepLabel, BorderLayout.NORTH);
-//        painel1.add(oceanView, BorderLayout.CENTER);
-//        painel1.add(population, BorderLayout.SOUTH);
-        
         Painel2 painel = new Painel2 ();
         painel.setSize(10, 10);
         
@@ -72,11 +68,6 @@ public class SimulatorView extends JFrame
         contents.add(population, BorderLayout.SOUTH);
         
         contents.add(painel, BorderLayout.EAST);
-//        painel.setVisible(true);
-        
-        //this.setContentPane(painel); 
-        
-        //contents.add(painel1, BorderLayout.CENTER);
         
         pack();
         setVisible(true);
@@ -118,15 +109,11 @@ public class SimulatorView extends JFrame
         if(!isVisible())
             setVisible(true);
         
-        if (reiniciar) {
-        	step = 0;
-        }
-        
         // Verifica se pausar esta ativo
         while (pausar) {
         	try { Thread.sleep (50); } catch (InterruptedException ex) {}
         }
-
+        
         stepLabel.setText(STEP_PREFIX + step);
 
         stats.reset();
@@ -162,7 +149,22 @@ public class SimulatorView extends JFrame
         // MUdando a velocidade
         try { Thread.sleep (velocidade); } catch (InterruptedException ex) {}
         
-        //return step;
+        if (reiniciar == true) {
+        	System.out.println("TESTE");
+        	oceanView.removeAll();
+        	//oceanView.isVisible();
+        	remove(oceanView);
+        	repaint();
+        	//oceanView = new OceanView(50, 60);
+        	//oceanView.validate();
+        	//revalidate();
+        	repaint();
+        	iniciar = false;
+        	reiniciar = false;
+        	stats.reset();
+        	
+        	//while (true) {}
+        }
     }
 
     /**
@@ -174,6 +176,36 @@ public class SimulatorView extends JFrame
         return stats.isViable(ocean);
     }
     
+    //////////////////////////////////////////////////////
+    /**
+   	 * @return the reiniciar
+   	 */
+   	public boolean getReiniciar() {
+   		return reiniciar;
+   	}
+
+   	/**
+   	 * @param reiniciar the reiniciar to set
+   	 */
+   	public void setReiniciar(boolean reiniciar) {
+   		this.reiniciar = reiniciar;
+   	}
+
+   	/**
+   	 * @return the iniciar
+   	 */
+   	public boolean getIniciar() {
+   		return iniciar;
+   	}
+
+   	/**
+   	 * @param iniciar the iniciar to set
+   	 */
+   	public void setIniciar(boolean iniciar) {
+   		this.iniciar = iniciar;
+   	}
+//////////////////////////////////////////////////////
+   	
     /**
      * Provide a graphical view of a rectangular ocean. This is 
      * a nested class (a class defined inside a class) which
@@ -262,6 +294,7 @@ public class SimulatorView extends JFrame
         }
     }
     
+//////////////////////////////////////////////////////
     public class Painel2 extends JPanel {
 
     	/**
@@ -277,6 +310,11 @@ public class SimulatorView extends JFrame
     		
     		// BOTAO INICIAR
     		JButton btnIniciar = new JButton("Iniciar");
+    		btnIniciar.addActionListener(new ActionListener() {
+    			public void actionPerformed(ActionEvent e) {	
+    				iniciar = true;
+    			}
+    		});
     		GridBagConstraints gbc_btnIniciar = new GridBagConstraints();
     		gbc_btnIniciar.fill = GridBagConstraints.HORIZONTAL;
     		gbc_btnIniciar.insets = new Insets(0, 0, 5, 0);
@@ -308,9 +346,9 @@ public class SimulatorView extends JFrame
     		
     		// BOTAO REINICIAR
     		JButton btnReiniciar = new JButton("Reiniciar");
-    		btnPausar.addActionListener(new ActionListener() {
+    		btnReiniciar.addActionListener(new ActionListener() {
     			public void actionPerformed(ActionEvent e) {
-    				
+    				reiniciar = true;
     			}
     		});
     		GridBagConstraints gbc_btnReiniciar = new GridBagConstraints();
@@ -321,7 +359,7 @@ public class SimulatorView extends JFrame
     		add(btnReiniciar, gbc_btnReiniciar);
     		
     		// CONTROLE DE VELOCIDADE
-    		JSlider slider = new JSlider(50, 800, 400);
+    		JSlider slider = new JSlider(0, 1000, 500);
     		slider.addChangeListener(new ChangeListener() {
     			public void stateChanged(ChangeEvent e) {
     				velocidade = slider.getValue();

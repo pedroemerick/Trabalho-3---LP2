@@ -99,7 +99,7 @@ public class Ocean
     		
     		Cell vizinhos[] = cells[n].neighbours(1);
     		
-    		System.out.println (vizinhos.length);
+    		//System.out.println (vizinhos.length);
     		
     		for (int indice = 0; indice < vizinhos.length; indice++) 
     		{

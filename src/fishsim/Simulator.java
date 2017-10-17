@@ -15,6 +15,8 @@ public class Simulator
     {
         Simulator sim = new Simulator(50, 60);
         sim.run(1000000);
+        
+        
     }
     
     /**
@@ -37,7 +39,7 @@ public class Simulator
         
         // define in which color fish should be shown
         simView.setColor(Herring.class, Color.red);
-        simView.setColor(Groper.class, Color.blue);
+        simView.setColor(Groper.class, Color.yellow);
         simView.setColor(Shark.class, Color.black);
     }
     
@@ -46,19 +48,25 @@ public class Simulator
      * @param steps number of iterations
      */
     public void run(int steps)
-    {
+    {  	
         // put the simulation main loop here
         for (int i = 0; i < steps; i++)
         {
+        	while (!simView.getIniciar()) {
+        		try { Thread.sleep (50); } catch (InterruptedException ex) {}
+        		i = 0;
+        	}
+        	
             ocean.act(i);
             simView.showStatus(i, ocean);
             
-            
-//            if (reiniciar == true) {
-//            	
-//            }
-            
-            //try { Thread.sleep (500); } catch (InterruptedException ex) {}
+            //try { Thread.sleep (50); } catch (InterruptedException ex) {}
+            if (simView.getReiniciar() == true) {
+            	//simView = new SimulatorView(50, 50);
+            	simView.setIniciar(false);
+            	simView.setReiniciar(false);
+            	//run(100);
+            }
         }
     }
 }
