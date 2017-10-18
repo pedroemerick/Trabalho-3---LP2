@@ -199,4 +199,50 @@ public class Ocean {
 	public int getWidth() {
 		return width;
 	}
+	
+	public void modificaParams (String modificacoes[]) {
+		
+		double modificacoes_double []= new double [2];
+		int modificacoes_int [] = new int [2];
+		
+		for (int indice = 0; indice < 2; indice++) {
+			if (modificacoes[indice] == null) {
+				modificacoes_double[indice] = 0.0;
+			} else {
+				modificacoes_double[indice] = Double.parseDouble(modificacoes[indice]);
+			}
+		}
+		
+		for (int indice = 2; indice < 4; indice++) {
+			if (modificacoes[indice] == null) {
+				modificacoes_int[indice-2] = 0;
+			} else {
+				modificacoes_int[indice-2] = Integer.parseInt(modificacoes[indice]);
+			}
+		}
+		
+		if (modificacoes_double[0] != 0) {
+			herringParams.setInitWeight(modificacoes_double[0]);
+			groperParams.setInitWeight(modificacoes_double[0]);
+			sharkParams.setInitWeight(modificacoes_double[0]);
+		}
+		
+		if (modificacoes_double[1] != 0) {
+			herringParams.setWeightReduce(modificacoes_double[1]);
+			groperParams.setWeightReduce(modificacoes_double[1]);
+			sharkParams.setWeightReduce(modificacoes_double[1]);
+		}
+		
+		if (modificacoes_int[0] != 0) {
+			herringParams.setBreedAge(modificacoes_int[0]);
+			groperParams.setBreedAge(modificacoes_int[0]);
+			sharkParams.setBreedAge(modificacoes_int[0]);
+		}
+		
+		if (modificacoes_int[1] != 0) {
+			herringParams.setMaxAge(modificacoes_int[1]);
+			groperParams.setMaxAge(modificacoes_int[1]);
+			sharkParams.setMaxAge(modificacoes_int[1]);	
+		}
+	}
 }

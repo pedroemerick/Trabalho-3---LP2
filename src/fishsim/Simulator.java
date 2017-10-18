@@ -2,6 +2,8 @@ package fishsim;
 
 import java.awt.Color;
 
+import javax.swing.JOptionPane;
+
 /**
  * (Fill in description and author info here)
  */
@@ -75,12 +77,25 @@ public class Simulator {
 
 		if (simView.getReiniciar()) {
 			reinicia = true;
-
+		}
+		
+		if (simView.isModificar()) {
+			ocean.modificaParams(simView.getModificacoes());
+			JOptionPane.showMessageDialog(null, "Configuração salva com sucesso !!!");
+			simView.setModificar(false);
+			
+			System.out.println("MODIFICOU");
 		}
 		/*
 		 * if (simView.getReiniciar() == true) { //simView = new SimulatorView(50, 50);
 		 * simView.setIniciar(false); simView.setReiniciar(false); //run(100); }
 		 */
+		
+//		System.out.println (ocean.groperParams.getInitWeight());
+//		System.out.println (ocean.groperParams.getWeightReduce());
+//		System.out.println (ocean.groperParams.getBreedAge());
+//		System.out.println (ocean.groperParams.getMaxAge());
+//		System.out.println();
 
 	}
 

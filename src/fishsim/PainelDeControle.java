@@ -138,10 +138,15 @@ public class PainelDeControle extends JFrame {
 				modificacoes[2] = textFieldIdadeProcriacao.getText();
 				modificacoes[3] = textFieldIdadeMaxVida.getText();
 				
+				for (int indice = 0; indice < 4; indice++) {
+					if (modificacoes[indice].trim().equals("")) {
+						modificacoes[indice] = null;
+					}
+				}
+				
 				simView.setModificacoes(modificacoes);
 				simView.setModificar(true);
-				
-				//JOptionPane.showMessageDialog(null, "Configuração salva com sucesso !!!");
+			
 				dispose();
 			}
 		});

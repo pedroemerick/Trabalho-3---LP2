@@ -57,5 +57,29 @@ public class SFPs implements FishParams {
     public double getMaxEat() {
         return maxEat;
     }
-
+    
+	/**
+	 * @param initWeight the initWeight to set
+	 */
+	public void setInitWeight(double initWeight) {
+		this.initWeight = initWeight;
+	}
+	/**
+	 * @param weightReduce the weightReduce to set
+	 */
+	public void setWeightReduce(double weightReduce) {
+		this.weightReduce = weightReduce;
+	}
+	/**
+	 * @param breedAge the breedAge to set
+	 */
+	public void setBreedAge(int breedAge) {
+		this.breedAge = breedAge;
+	}
+	/**
+	 * @param maxAge the maxAge to set
+	 */
+	public void setMaxAge(int maxAge) {
+		this.maxAge = maxAge;
+	}   
 }

@@ -22,4 +22,9 @@ public interface FishParams {
     public int getMaxAge();
     public int getHuntDistance();
     public double getMaxEat();
+    
+    public void setInitWeight(double initWeight);
+    public void setWeightReduce(double weightReduce);
+    public void setBreedAge(int breedAge);
+    public void setMaxAge(int maxAge);
 }
