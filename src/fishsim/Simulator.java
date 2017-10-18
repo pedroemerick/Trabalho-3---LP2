@@ -13,13 +13,20 @@ public class Simulator {
 
 	public static void main(String[] args) throws InterruptedException {
 		Simulator sim = new Simulator(50, 60);
-		for (int i = 0; i < 10000; i++) {
-			sim.run(i);
-			if (sim.isReinicia()) {
-				sim.getSimView().setVisible(false);
-				sim = new Simulator(50, 60);
-				i = 0;
+
+		try {
+			for (int i = 0; i < 10000; i++) {
+				//sim.run(i);
+				if (sim.isReinicia()) {
+					sim.getSimView().setVisible(false);
+					sim = new Simulator(50, 60);
+					i = 0;
+				}
+				
+				sim.run(i);
 			}
+		} catch (InterruptedException e) {
+			System.out.println("Erro no sim.run()");
 		}
 	}
 
@@ -58,24 +65,23 @@ public class Simulator {
 	 */
 	public void run(int steps) throws InterruptedException {
 		// put the simulation main loop here
-		
-			while (!simView.getIniciar()) {
-				Thread.sleep(50);
-			}
 
-			ocean.act(steps);
-			simView.showStatus(steps, ocean);
+		while (!simView.getIniciar()) {
+			Thread.sleep(50);
+		}
 
-			if (simView.getReiniciar()) {
-				reinicia = true;
-				
-			}
-			/*
-			 * if (simView.getReiniciar() == true) { //simView = new SimulatorView(50, 50);
-			 * simView.setIniciar(false); simView.setReiniciar(false); //run(100); }
-			 */
-			
-		
+		ocean.act(steps);
+		simView.showStatus(steps, ocean);
+
+		if (simView.getReiniciar()) {
+			reinicia = true;
+
+		}
+		/*
+		 * if (simView.getReiniciar() == true) { //simView = new SimulatorView(50, 50);
+		 * simView.setIniciar(false); simView.setReiniciar(false); //run(100); }
+		 */
+
 	}
 
 	public boolean isReinicia() {

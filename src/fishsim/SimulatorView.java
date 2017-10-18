@@ -38,6 +38,9 @@ public class SimulatorView extends JFrame {
 	private int velocidade;
 	private boolean reiniciar;
 	private boolean iniciar;
+	
+	private boolean modificar;
+	private String modificacoes[];
 
 	/**
 	 * Create a view of the given width and height.
@@ -76,6 +79,9 @@ public class SimulatorView extends JFrame {
 		// VERIFICAR SE ER AQUI MSM
 		velocidade = 400;
 		reiniciar = false;
+		modificar = false;
+		pausar = false;
+		iniciar = false;
 	}
 
 	/**
@@ -106,16 +112,12 @@ public class SimulatorView extends JFrame {
 	 * @param ocean
 	 *            The ocean whose status is to be displayed.
 	 */
-	public void showStatus(int step, Ocean ocean) {
+	public void showStatus(int step, Ocean ocean) throws InterruptedException {
 
 		// Verifica se pausar esta ativo
 		while (pausar) {
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException ex) {
-			}
+			Thread.sleep(50);
 		}
-
 
 		stepLabel.setText(STEP_PREFIX + step);
 
@@ -148,10 +150,13 @@ public class SimulatorView extends JFrame {
 		oceanView.repaint();
 
 		// MUdando a velocidade
-		try {
-			Thread.sleep(velocidade);
-		} catch (InterruptedException ex) {
+		Thread.sleep(velocidade);
+		
+		if (modificar == true) {
+			JOptionPane.showMessageDialog(null, "Configuração salva com sucesso !!!");
+			modificar = false;
 		}
+		
 		/*
 		 * if (reiniciar == true) { System.out.println("TESTE"); oceanView.removeAll();
 		 * // oceanView.isVisible(); remove(oceanView); repaint(); // oceanView = new
@@ -201,7 +206,24 @@ public class SimulatorView extends JFrame {
 	public void setIniciar(boolean iniciar) {
 		this.iniciar = iniciar;
 	}
-	//////////////////////////////////////////////////////
+	
+	/**
+	 * @param modificar the modificar to set
+	 */
+	public void setModificar(boolean modificar) {
+		this.modificar = modificar;
+	}
+	
+
+	/**
+	 * @param modificacoes the modificacoes to set
+	 */
+	public void setModificacoes(String[] modificacoes) {
+		this.modificacoes = modificacoes;
+	}
+	
+	/////////////////////////////////////////////////////
+
 
 	/**
 	 * Provide a graphical view of a rectangular ocean. This is a nested class (a
@@ -289,10 +311,10 @@ public class SimulatorView extends JFrame {
 		 */
 		public Painel2() {
 			GridBagLayout gridBagLayout = new GridBagLayout();
-			gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-			gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-			gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-			gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+			gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+			gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+			gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 			setLayout(gridBagLayout);
 
 			// BOTAO INICIAR
@@ -306,7 +328,7 @@ public class SimulatorView extends JFrame {
 			gbc_btnIniciar.fill = GridBagConstraints.HORIZONTAL;
 			gbc_btnIniciar.insets = new Insets(0, 0, 5, 0);
 			gbc_btnIniciar.gridx = 6;
-			gbc_btnIniciar.gridy = 2;
+			gbc_btnIniciar.gridy = 1;
 			add(btnIniciar, gbc_btnIniciar);
 
 			// BOTAO PAUSAR
@@ -328,7 +350,7 @@ public class SimulatorView extends JFrame {
 			gbc_btnPausar.insets = new Insets(0, 0, 5, 0);
 			gbc_btnPausar.anchor = GridBagConstraints.NORTH;
 			gbc_btnPausar.gridx = 6;
-			gbc_btnPausar.gridy = 3;
+			gbc_btnPausar.gridy = 2;
 			add(btnPausar, gbc_btnPausar);
 
 			// BOTAO REINICIAR
@@ -342,14 +364,40 @@ public class SimulatorView extends JFrame {
 			gbc_btnReiniciar.fill = GridBagConstraints.HORIZONTAL;
 			gbc_btnReiniciar.insets = new Insets(0, 0, 5, 0);
 			gbc_btnReiniciar.gridx = 6;
-			gbc_btnReiniciar.gridy = 4;
+			gbc_btnReiniciar.gridy = 3;
 			add(btnReiniciar, gbc_btnReiniciar);
+			
+			// BOTAO PAINEL DE CONTROLE
+			JButton btnPainelDeControle = new JButton("Painel de Controle");
+			btnPainelDeControle.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					 PainelDeControle painel_controle = new PainelDeControle (SimulatorView.this);
+					 painel_controle.setVisible(true);
+					 
+//					 while (painel_controle.isVisible() == true) {
+//						 try {
+//							Thread.sleep(100);
+//						} catch (InterruptedException e1) {
+//							
+//						}
+//					 }
+					 //modificar = painel_controle.isModificar();
+					 //modificacoes = painel_controle.getModificacoes();
+//					 JOptionPane.showMessageDialog(null, "Configuração salva com sucesso !!!");
+				}
+			});
+			GridBagConstraints gbc_btnPainelDeControle = new GridBagConstraints();
+			gbc_btnPainelDeControle.fill = GridBagConstraints.HORIZONTAL;
+			gbc_btnPainelDeControle.insets = new Insets(0, 0, 5, 0);
+			gbc_btnPainelDeControle.gridx = 6;
+			gbc_btnPainelDeControle.gridy = 4;
+			add(btnPainelDeControle, gbc_btnPainelDeControle);
 
 			// CONTROLE DE VELOCIDADE
 			JSlider slider = new JSlider(0, 1000, 500);
 			slider.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
-					velocidade = slider.getValue();
+					velocidade = 1000 - slider.getValue();
 				}
 			});
 			GridBagConstraints gbc_slider = new GridBagConstraints();
