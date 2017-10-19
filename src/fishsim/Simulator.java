@@ -13,25 +13,6 @@ public class Simulator {
 	private SimulatorView simView;
 	private boolean reinicia = false;
 
-	public static void main(String[] args) throws InterruptedException {
-		Simulator sim = new Simulator(50, 60);
-
-		try {
-			for (int i = 0; i < 10000; i++) {
-				//sim.run(i);
-				if (sim.isReinicia()) {
-					sim.getSimView().setVisible(false);
-					sim = new Simulator(50, 60);
-					i = 0;
-				}
-				
-				sim.run(i);
-			}
-		} catch (InterruptedException e) {
-			System.out.println("Erro no sim.run()");
-		}
-	}
-
 	/**
 	 * Set up the simulation
 	 * 
@@ -80,16 +61,11 @@ public class Simulator {
 		}
 		
 		if (simView.isModificar()) {
-			ocean.modificaParams(simView.getModificacoes());
-			JOptionPane.showMessageDialog(null, "Configuração salva com sucesso !!!");
+			fazerModificacoes (simView.getModificacoes());
 			simView.setModificar(false);
 			
-			System.out.println("MODIFICOU");
+			//System.out.println("MODIFICOU");
 		}
-		/*
-		 * if (simView.getReiniciar() == true) { //simView = new SimulatorView(50, 50);
-		 * simView.setIniciar(false); simView.setReiniciar(false); //run(100); }
-		 */
 		
 //		System.out.println (ocean.groperParams.getInitWeight());
 //		System.out.println (ocean.groperParams.getWeightReduce());
@@ -97,6 +73,42 @@ public class Simulator {
 //		System.out.println (ocean.groperParams.getMaxAge());
 //		System.out.println();
 
+	}
+	
+	public void fazerModificacoes (String modificacoes[]) {
+		double modificacoes_double []= new double [2];
+		int modificacoes_int [] = new int [2];
+		
+		for (int indice = 1; indice < 3; indice++) {
+			if (modificacoes[indice] == null) {
+				modificacoes_double[indice-1] = 0.0;
+			} else {
+				modificacoes_double[indice-1] = Double.parseDouble(modificacoes[indice]);
+			}
+		}
+		
+		for (int indice = 3; indice < 5; indice++) {
+			if (modificacoes[indice] == null) {
+				modificacoes_int[indice-3] = 0;
+			} else {
+				modificacoes_int[indice-3] = Integer.parseInt(modificacoes[indice]);
+			}
+		}
+		
+		switch (modificacoes[0]) {
+			case "Sardinhas":
+				ocean.modificaHerringParams(modificacoes_double, modificacoes_int);
+				break;
+			case "Atuns":
+				ocean.modificaGroperParams(modificacoes_double, modificacoes_int);
+				break;
+			case "Tubaroes":
+				ocean.modificaSharkParams(modificacoes_double, modificacoes_int);
+				break;
+			default:
+				break;
+		}
+		
 	}
 
 	public boolean isReinicia() {
