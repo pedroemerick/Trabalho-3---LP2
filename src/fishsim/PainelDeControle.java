@@ -96,6 +96,7 @@ public class PainelDeControle extends JFrame {
 		contentPane.add(lblIdadeParaProcriacao, gbc_lblIdadeParaProcriacao);
 		
 		textFieldIdadeProcriacao = new JTextField();
+		textFieldIdadeProcriacao.setToolTipText("");
 		GridBagConstraints gbc_textFieldIdadeProcriacao = new GridBagConstraints();
 		gbc_textFieldIdadeProcriacao.fill = GridBagConstraints.BOTH;
 		gbc_textFieldIdadeProcriacao.insets = new Insets(0, 0, 5, 0);

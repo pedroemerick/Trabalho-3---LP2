@@ -57,7 +57,7 @@ public class SimulatorView extends JFrame {
 		population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
 
 		PainelMenu painel_menu = new PainelMenu (SimulatorView.this);
-		painel_menu.setSize(10, 10);
+		//painel_menu.setSize(10, 10);
 
 		setLocation(100, 50);
 

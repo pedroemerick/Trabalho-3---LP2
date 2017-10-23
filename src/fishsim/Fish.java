@@ -8,7 +8,7 @@ package fishsim;
  */
 public abstract class Fish
 {
-	protected Cell cell;
+	//protected Cell cell;
 	protected double weight;
 	protected double viableWeight;
 	protected double weightReduce;
@@ -26,14 +26,14 @@ public abstract class Fish
      */
     public Fish(Cell cell, FishParams params)
     {
-		this.cell = cell;
-                weight = params.getInitWeight();
-                viableWeight = params.getViableWeight();
-                weightReduce = params.getWeightReduce();
-                breedWeight = params.getBreedWeight();
-                breedAge = params.getBreedAge();
-                maxAge = params.getMaxAge();
-                cell.setFish(this);
+		//this.cell = cell;
+        weight = params.getInitWeight();
+        viableWeight = params.getViableWeight();
+        weightReduce = params.getWeightReduce();
+        breedWeight = params.getBreedWeight();
+        breedAge = params.getBreedAge();
+        maxAge = params.getMaxAge();
+        cell.setFish(this);
 		age = 0;
 	}
     
@@ -83,10 +83,10 @@ public abstract class Fish
 	 * Move the fish to a new cell
 	 * @param cell destination
 	 */
-	public void move(Cell cell)
+	public void move(Cell cell, Cell cell_atual)
 	{
-		this.cell.setFish(null);
-		this.cell = cell;
+		cell_atual.setFish(null);
+		//this.cell = cell;
 		cell.setFish(this);
 	}
 	
@@ -94,5 +94,7 @@ public abstract class Fish
          * Called for each fish once per simulator step
          * @param step incrementing step number
          */
-	public abstract void act(int step);
+	//public abstract void act(int step);
+	
+	public abstract void act(int step, Cell cell_atual);
 }

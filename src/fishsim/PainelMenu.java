@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JSlider;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionListener;
@@ -92,6 +93,9 @@ public class PainelMenu extends JPanel {
 
 		// CONTROLE DE VELOCIDADE
 		JSlider slider = new JSlider(0, 1000, 500);
+		slider.setMajorTickSpacing(1000);
+		slider.setPaintTicks(true);
+		slider.setPaintLabels(true);
 		slider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				simView.setVelocidade (1000 - slider.getValue());

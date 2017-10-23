@@ -89,9 +89,13 @@ public class Ocean {
 		// Act on all the fish
 		// VERIFICAR SEGUNTO PONTO DO PDF SE JA ESTA PRONTO
 		Cell cells[] = Cells();
-		for (int n = 0; n < cells.length; n++)
+		for (int n = 0; n < cells.length; n++) {
 			if (cells[n].getFish() != null)
-				cells[n].getFish().act(step);
+				cells[n].getFish().act(step, cells[n]);
+		}
+		
+		
+		
 		// Grow the plancton
 		for (int n = 0; n < plancton.size(); n++) {
 			// plancton[n] = Math.min(plancton[n] * incPlancton, maxPlancton);

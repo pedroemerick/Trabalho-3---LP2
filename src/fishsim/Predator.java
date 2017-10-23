@@ -26,18 +26,28 @@ public abstract class Predator extends Fish {
      * Called once for each iteration step
      * @param step iteration counter
      */
-    @Override
-    public void act(int step) {
+    //@Override
+    public void act (int step, Cell cell_atual) {
         if (this.step == step) {
             return;
         }
         this.step = step;
         this.age++;
 
-        // Eat as many fish as are in the neighbourhood
+        this.eat(cell_atual);
+        if (!this.isAlive())
+			cell_atual.setFish(null);
+		else
+			this.breed(cell_atual);
+
+    }
+    
+    public void eat (Cell cell_atual) {
+    	// Eat as many fish as are in the neighbourhood
         // in decreasing order by status
-        Cell neighbours[] = cell.neighbours(huntDistance);
-        Arrays.sort(neighbours);
+        //Cell neighbours[] = cell.neighbours(huntDistance);
+    	Cell neighbours[] = cell_atual.neighbours(huntDistance);
+    	Arrays.sort(neighbours);
         double eaten = 0.0;
         for (Cell c : neighbours) {
             if (c.getStatus() == 0) {
@@ -45,37 +55,52 @@ public abstract class Predator extends Fish {
             }
 
             if (c.getStatus() < status) {
-                double w = c.getFish().getWeight();
-                eat(w);
+            	double w = c.getFish().getWeight();
+            	
+            	// nao comer peixes maiores
+            	if (this.getWeight() < w)
+            		return;
+            	
+                super.eat(w);
                 c.setFish(null);
                 eaten += w;
                 if (eaten >= maxEat)
                     break;
             }
         }
-
-        // Apply our weightloss and see if we are too light to live
+    }
+    
+    public boolean isAlive () {
+    	 // Apply our weightloss and see if we are too light to live
         weight *= weightReduce;
         if (weight < viableWeight || age > maxAge) {
-            cell.setFish(null);
-            return;
+            return false;
         }
-
-        // If we are qualified to breed then do so
+        
+        return true;
+    }
+    
+    public void breed (Cell cell_atual) {
+    	// If we are qualified to breed then do so
         // by splitting in two.
         if (weight > breedWeight && age >= breedAge) {
-            Cell c = Cell.random(cell.neighbours(huntDistance, true));
+            Cell c = Cell.random(cell_atual.neighbours(huntDistance, true));
             if (c != null) {
                 Fish child = spawn(c);
                 child.setWeight(weight / 2);
                 weight /= 2;
             }
         } else {
-            // Otherwise just swim to a neighbouring empty cell
-            Cell c = Cell.random(cell.neighbours(5, true));
+			// Otherwise just swim to a neighbouring empty cell
+            Cell c = Cell.random(cell_atual.neighbours(5, true));
             if (c != null)
-                move(c);
+                super.move(c, cell_atual);
         }
-
     }
+    
+//    public void move (Cell c, List <Cell> neighborhood, int cell_atual) {
+//    	//super.move(cell);
+//    	neighborhood.get(cell_atual).setFish(null);
+//		c.setFish(this);
+//    }
 }
