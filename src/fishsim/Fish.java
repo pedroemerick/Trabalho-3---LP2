@@ -96,5 +96,18 @@ public abstract class Fish
          */
 	//public abstract void act(int step);
 	
+	public void plusAge (int step) {
+		if (this.step == step)
+			return;
+		this.step = step;
+		age++;
+	}
+	
 	public abstract void act(int step, Cell cell_atual);
+	
+	public abstract void eat (Cell cell_atual);
+	
+	public abstract boolean isAlive ();
+	
+	public abstract void breed (Cell cell_atual);
 }

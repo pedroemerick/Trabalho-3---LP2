@@ -90,38 +90,50 @@ public class Ocean {
 		// VERIFICAR SEGUNTO PONTO DO PDF SE JA ESTA PRONTO
 		Cell cells[] = Cells();
 		for (int n = 0; n < cells.length; n++) {
-			if (cells[n].getFish() != null)
+			if (cells[n].getFish() != null) {
+//				cells[n].getFish().plusAge(step);
+//				cells[n].getFish().eat(cells[n]);
+//				if (!cells[n].getFish().isAlive())
+//					cells[n].setFish(null);
+//				else
+//					cells[n].getFish().breed(cells[n]);
+				
 				cells[n].getFish().act(step, cells[n]);
+			}
+			
 		}
 		
 		
 		
 		// Grow the plancton
 		for (int n = 0; n < plancton.size(); n++) {
-			// plancton[n] = Math.min(plancton[n] * incPlancton, maxPlancton);
+			//plancton[n] = Math.min(plancton[n] * incPlancton, maxPlancton);
 
 			Plancton atual = plancton.get(n);
 			double temp = atual.getInitialPlancton();
-			// temp += (atual.getInitialPlancton() * 50.0) / 100;
+			temp *= atual.getIncPlancton();
+//			temp = (temp * 50.0)/100.0;
 
-			double influencia_propria = temp / 2;
-
-			temp += influencia_propria;
-
+//			double influencia_propria = temp / 2;
+//
+//			temp += influencia_propria;
+//
 			Cell vizinhos[] = cells[n].neighbours(1);
 
 			// System.out.println (vizinhos.length);
 
-			for (int indice = 0; indice < vizinhos.length; indice++) {
-				double aux = getPlanctonAt(vizinhos[indice].getRow(), vizinhos[indice].getCol()).getInitialPlancton();
-				aux = aux * 12.5 / 100;
-				temp += aux;
-			}
+//			for (int indice = 0; indice < vizinhos.length; indice++) {
+//				Plancton vizinho = getPlanctonAt(vizinhos[indice].getRow(), vizinhos[indice].getCol());
+//				double aux = vizinho.getInitialPlancton() * vizinho.getIncPlancton();
+//				aux = (aux * 12.5)/100.0;
+//				temp += aux;
+//			}
 
 			// System.out.println (temp);
 
 			temp = Math.min(temp, atual.getMaxPlancton());
 
+			//double temp = Math.min(atual.getInitialPlancton() * atual.getIncPlancton(), atual.getMaxPlancton());
 			atual.setInitialPlancton(temp);
 		}
 	}

@@ -42,33 +42,33 @@ public abstract class Predator extends Fish {
 
     }
     
-    public void eat (Cell cell_atual) {
-    	// Eat as many fish as are in the neighbourhood
-        // in decreasing order by status
-        //Cell neighbours[] = cell.neighbours(huntDistance);
-    	Cell neighbours[] = cell_atual.neighbours(huntDistance);
-    	Arrays.sort(neighbours);
-        double eaten = 0.0;
-        for (Cell c : neighbours) {
-            if (c.getStatus() == 0) {
-                break;
-            }
-
-            if (c.getStatus() < status) {
-            	double w = c.getFish().getWeight();
-            	
-            	// nao comer peixes maiores
-            	if (this.getWeight() < w)
-            		return;
-            	
-                super.eat(w);
-                c.setFish(null);
-                eaten += w;
-                if (eaten >= maxEat)
-                    break;
-            }
-        }
-    }
+//    public void eat (Cell cell_atual) {
+//    	// Eat as many fish as are in the neighbourhood
+//        // in decreasing order by status
+//        //Cell neighbours[] = cell.neighbours(huntDistance);
+//    	Cell neighbours[] = cell_atual.neighbours(huntDistance);
+//    	Arrays.sort(neighbours);
+//        double eaten = 0.0;
+//        for (Cell c : neighbours) {
+//            if (c.getStatus() == 0) {
+//                break;
+//            }
+//
+//            if (c.getStatus() < status) {
+//            	double w = c.getFish().getWeight();
+//            	
+//            	// nao comer peixes maiores
+//            	if (this.getWeight() < w)
+//            		return;
+//            	
+//                super.eat(w);
+//                c.setFish(null);
+//                eaten += w;
+//                if (eaten >= maxEat)
+//                    break;
+//            }
+//        }
+//    }
     
     public boolean isAlive () {
     	 // Apply our weightloss and see if we are too light to live
