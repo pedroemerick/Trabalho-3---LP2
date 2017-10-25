@@ -11,7 +11,7 @@ public class Plancton
 {
 	private double initialPlancton = 5.0;
     private double maxPlancton = 10.0;
-    private double incPlancton = 1.2;
+    private double incPlancton = 1.05;
     
 	/**
 	 * @return the initialPlancton
@@ -54,7 +54,5 @@ public class Plancton
 	public void setIncPlancton(double incPlancton) {
 		this.incPlancton = incPlancton;
 	}
-	
-    
     
 }

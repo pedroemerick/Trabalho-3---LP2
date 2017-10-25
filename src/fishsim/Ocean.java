@@ -103,38 +103,30 @@ public class Ocean {
 			
 		}
 		
-		
-		
 		// Grow the plancton
 		for (int n = 0; n < plancton.size(); n++) {
 			//plancton[n] = Math.min(plancton[n] * incPlancton, maxPlancton);
 
 			Plancton atual = plancton.get(n);
-			double temp = atual.getInitialPlancton();
-			temp *= atual.getIncPlancton();
-//			temp = (temp * 50.0)/100.0;
-
-//			double influencia_propria = temp / 2;
-//
-//			temp += influencia_propria;
-//
+			
+			double temp = atual.getInitialPlancton() * atual.getIncPlancton();
+			temp -= atual.getInitialPlancton();
+			temp /= 2;
+			
+			double proximo_valor = atual.getInitialPlancton() + temp;
+			proximo_valor = Math.min(proximo_valor, atual.getMaxPlancton());
+			atual.setInitialPlancton(proximo_valor);
+			
 			Cell vizinhos[] = cells[n].neighbours(1);
-
-			// System.out.println (vizinhos.length);
-
-//			for (int indice = 0; indice < vizinhos.length; indice++) {
-//				Plancton vizinho = getPlanctonAt(vizinhos[indice].getRow(), vizinhos[indice].getCol());
-//				double aux = vizinho.getInitialPlancton() * vizinho.getIncPlancton();
-//				aux = (aux * 12.5)/100.0;
-//				temp += aux;
-//			}
-
-			// System.out.println (temp);
-
-			temp = Math.min(temp, atual.getMaxPlancton());
-
-			//double temp = Math.min(atual.getInitialPlancton() * atual.getIncPlancton(), atual.getMaxPlancton());
-			atual.setInitialPlancton(temp);
+    		
+			Plancton aux;
+    		for (int i = 0; i < vizinhos.length; i++)
+    		{
+    			aux = getPlanctonAt(vizinhos[i].getRow(), vizinhos[i].getCol());
+    			double valor = aux.getInitialPlancton() + (temp/4);
+    			aux.setInitialPlancton(Math.min(valor, aux.getMaxPlancton()));
+    		}
+	
 		}
 	}
 

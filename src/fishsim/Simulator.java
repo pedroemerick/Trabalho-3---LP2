@@ -67,6 +67,11 @@ public class Simulator {
 			//System.out.println("MODIFICOU");
 		}
 		
+//		if (steps == 10 || steps == 50) {
+//			System.out.println(this.toString());
+//			System.out.println(simView.toString());
+//			System.out.println(ocean.toString());
+//		}
 //		System.out.println (ocean.groperParams.getInitWeight());
 //		System.out.println (ocean.groperParams.getWeightReduce());
 //		System.out.println (ocean.groperParams.getBreedAge());
@@ -126,4 +131,5 @@ public class Simulator {
 	public void setSimView(SimulatorView simView) {
 		this.simView = simView;
 	}
+	
 }
